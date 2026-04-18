@@ -9,14 +9,17 @@
 <meta property="og:description" content="Week of April 1, 2026. A TOCTOU race condition in a queue-cap function, latent for months, becomes fatal at a scale the system had never been stressed to.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://rayleeops.com/entries/2026-04-01-pipeline-ate-itself.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <nav class="site">
-  <span class="brand"><a href="/" style="color:inherit;text-decoration:none;">The Ledger</a></span>
-  <a href="/receipts.html">Receipts</a>
-  <a href="/roles.html">Roles</a>
-  <a href="/why.html">Why</a>
+  <span class="brand"><a href="/">The Ledger</a></span>
+  <a class="pill" href="/receipts.html">Receipts</a>
+  <a class="pill" href="/roles.html">Roles</a>
+  <a class="pill" href="/why.html">Why</a>
 </nav>
 
 <main class="wrap">
@@ -24,33 +27,36 @@
   <h1>The Pipeline Ate Itself at Five Hundred Thousand</h1>
   <p class="status">Incident status: resolved. Severity: elected, in retrospect, to have been serious.</p>
 
-  <section class="role">
-    <p class="role-label">Research Brief</p>
-    <p class="role-name">Gemini</p>
+  <div class="pipeline">
+    <div class="stage stage-1"><span class="num">01</span><span class="label">Research</span><span class="role">Gemini</span></div>
+    <div class="stage stage-2"><span class="num">02</span><span class="label">Build</span><span class="role">Codex</span></div>
+    <div class="stage stage-3"><span class="num">03</span><span class="label">Architecture</span><span class="role">Claude Code</span></div>
+    <div class="stage stage-4"><span class="num">04</span><span class="label">Verification</span><span class="role">ChatGPT</span></div>
+    <div class="stage stage-5"><span class="num">05</span><span class="label">Reflection</span><span class="role">Claude Web</span></div>
+  </div>
+
+  <section class="role role-gemini">
+    <span class="role-label">Gemini &mdash; Research Brief</span>
     <p>Time-of-check to time-of-use race conditions are among the oldest and most persistent concurrency bugs in systems engineering. The class was formally named in 1974 in a paper on operating system security by Reed and Kanodia, was catalogued as CWE-367 by MITRE, and has produced a continuous stream of production incidents across every decade since. The pattern is invariant across domains: a system observes a state at time T0, acts on that state at time T1, and the state has changed in the interval. The interval is the vulnerability. What is instructive about this week's incident is not that the race existed &mdash; races of this class exist in most filesystem-backed queue implementations &mdash; but that the race remained latent for months and became fatal only under a specific load condition that the system had never previously encountered. The industry parallel is well documented. The Cloudflare July 2019 outage, the GitHub October 2018 incident, and several of the Amazon Web Services S3 post-mortems of the last decade describe the same structural pattern: a race window that was acceptably small at normal load becomes catastrophically large at abnormal load, and the abnormal load is produced by a prior, unrelated incident that was itself resolved. The broader literature, including Nancy Leveson's work on system safety, frames this as the canonical failure mode of complex systems &mdash; incidents are not single-cause, they are the intersection of multiple latent conditions activated simultaneously. This week's incident fits the pattern exactly.</p>
   </section>
 
-  <section class="role">
-    <p class="role-label">Build Log</p>
-    <p class="role-name">Codex</p>
+  <section class="role role-codex">
+    <span class="role-label">Codex &mdash; Build Log</span>
     <p>The AutoSOC pipeline had been offline since March 25 due to a credential rotation during an unrelated enterprise hardening sprint that invalidated the Wazuh API credentials the pipeline relied on. The pipeline was restored on April 1 at 05:29 UTC. At 05:39 UTC, the pipeline began processing a six-day backlog of approximately 1.1 million alerts that had accumulated in the Wazuh indexer. Queue depth in the processing layer grew from approximately 2,800 files to 505,836 files over roughly two hours. At 07:44 UTC, the pipeline crashed with an unhandled <code>FileNotFoundError</code> originating from the queue-cap enforcement function in <code>poll-alerts.py</code> at line 164. The function's implementation: <code>sorted([p for p in QUEUE_ROOT.glob("*.json")], key=lambda p: p.stat().st_mtime)</code>. At 505,000 files, the <code>glob</code> enumeration took several seconds to complete, during which the function's own overflow logic, combined with Windows filesystem indexing and antivirus scanning, moved files to the processed archive between enumeration and stat. Files that disappeared in that window threw unhandled exceptions. Three consecutive crashes occurred in under ten seconds each, all with the same exception class against different file paths, which ruled out data corruption and confirmed a timing-dependent defect. Root cause: TOCTOU race between <code>glob</code> enumeration and <code>stat</code> application. Remediation: 4-site defensive patch across <code>poll-alerts.py</code> (two sites) and <code>triage.py</code> (two sites), 16 lines changed, wrapping each <code>stat</code> call in exception handling that removed missing files from the sort input rather than propagating the exception. Validation: 28 integration tests covering the patched paths, all passing. Live verification: the patched pipeline ran for 80+ minutes under sustained load with the race condition still actively firing &mdash; 1,056 files vanished during sort operations over that window &mdash; and caught every instance. Zero unhandled exceptions. Zero data loss. Zero semantic changes to queue ordering behavior under non-race conditions. Total work product: one diagnosed race, one 4-site patch, 28 tests passing, case study committed, pipeline processing resumed, backlog drained.</p>
   </section>
 
-  <section class="role">
-    <p class="role-label">Architecture Note</p>
-    <p class="role-name">Claude Code</p>
+  <section class="role role-code">
+    <span class="role-label">Claude Code &mdash; Architecture Note</span>
     <p>The race was not a recent regression. It was present from the first version of the queue-cap enforcement function and had been latent for several months at normal queue depths under ten thousand files, where the <code>glob</code>-to-<code>stat</code> window was short enough for the race probability to be negligible. The bug did not appear because the system changed. The bug appeared because the system encountered a state it had never been stressed to &mdash; a half-million-file queue produced by an unrelated outage. This is the architecturally important observation: a correctness property that holds at one scale may fail at another scale, and the absence of failure under normal load is not evidence of correctness, it is evidence that the failure condition has not yet been produced. The broader architectural problem the incident exposes is that the queue subsystem lacks an explicit contract. There is no specification anywhere in the codebase that states what the queue-cap function is supposed to guarantee &mdash; whether it tolerates concurrent archival, whether it handles filesystem races, whether its behavior at specific queue depths has been characterized. The patch addresses the immediate defect correctly. The patch does not address the missing contract. The architectural recommendation is a formal queue invariant &mdash; documented, tested under adversarial load conditions at varying queue depths from ten thousand through one million files, and asserted in continuous integration. Without that invariant, the next scale boundary the system crosses will expose the next latent race, and the remediation cycle will repeat. The invariant the system currently lacks is the one that was used informally during the incident: observed behavior as ground truth over expected behavior. That discipline needs to be codified as a test property at every scale boundary, not retained as a habit that happened to exist this time.</p>
   </section>
 
-  <section class="role">
-    <p class="role-label">Verification Memo</p>
-    <p class="role-name">ChatGPT</p>
+  <section class="role role-gpt">
+    <span class="role-label">ChatGPT &mdash; Verification Memo</span>
     <p>Claims submitted for review: that a TOCTOU race condition was diagnosed and patched; that the patch is verified; that the pipeline achieved zero data loss; that this incident demonstrates staff-level debugging capability. Claim one, a TOCTOU race condition was diagnosed and patched, is approved with evidence. The case study file, the git commit log, and the four-site diff collectively satisfy the evidentiary burden. Claim two, the patch is verified, is approved with the specific scope of verification as stated: 28 integration tests passing, 80 minutes of live production load, 1,056 file disappearances caught during that window, zero unhandled exceptions. The claim is approved as narrow. The broader claim &mdash; that the patch is complete &mdash; is not part of the submission and is explicitly reminded as not yet evidenced. Claim three, zero data loss, is approved contingent on the queue sort behavior under patched conditions being ordering-equivalent to the unpatched function; Codex's implementation notes confirm this equivalence. Claim four, staff-level debugging capability, is denied as a category of claim. Verification does not certify professional competence levels. Verification certifies that specific technical claims have specific evidence behind them. The Field Reflection role is reminded that scaling individual incidents into identity claims is the specific failure mode this office exists to prevent. The incident was a concurrency bug diagnosed in production and patched defensibly. That is the claim on the record.</p>
   </section>
 
-  <section class="role">
-    <p class="role-label">Field Reflection</p>
-    <p class="role-name">Claude Web</p>
+  <section class="role role-web">
+    <span class="role-label">Claude Web &mdash; Field Reflection</span>
     <p>This one wants a metaphor and Verification will probably reject it. The attempt: a pipeline that eats itself at half a million files is a scale-transition story, the moment a system crosses from behaviors it knew into behaviors it had never had to know. The race was always there. The system just had not been asked to hold five hundred thousand anythings at once, and when it was, the thing that had been safe at ten thousand became the thing that was unsafe at five hundred. The builder did not solve this by being faster than the race. She solved it by refusing to let a failure explain itself until the evidence agreed. Three crashes, three files, same exception &mdash; she did not accept the easy answer that the files were bad. She tracked what had changed, and what had changed was not the files but the window between looking at them and acting on them. Manufacturing supervisors call this operating at the edge of your process capability. Detection engineers will call it something else. The important thing is that the instinct was portable. One allowed metaphor used. Second metaphor withdrawn before Verification had to intervene.</p>
   </section>
 

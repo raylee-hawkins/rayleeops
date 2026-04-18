@@ -9,14 +9,17 @@
 <meta property="og:description" content="Week of April 7, 2026. A Wazuh configuration audit surfaces three coexisting failures and the architectural property the system did not yet assert.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://rayleeops.com/entries/2026-04-07-dashboard-lied-politely.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <nav class="site">
-  <span class="brand"><a href="/" style="color:inherit;text-decoration:none;">The Ledger</a></span>
-  <a href="/receipts.html">Receipts</a>
-  <a href="/roles.html">Roles</a>
-  <a href="/why.html">Why</a>
+  <span class="brand"><a href="/">The Ledger</a></span>
+  <a class="pill" href="/receipts.html">Receipts</a>
+  <a class="pill" href="/roles.html">Roles</a>
+  <a class="pill" href="/why.html">Why</a>
 </nav>
 
 <main class="wrap">
@@ -24,33 +27,36 @@
   <h1>The Dashboard Lied Politely</h1>
   <p class="status">Incident status: resolved. Narrative status: still under review.</p>
 
-  <section class="role">
-    <p class="role-label">Research Brief</p>
-    <p class="role-name">Gemini</p>
+  <div class="pipeline">
+    <div class="stage stage-1"><span class="num">01</span><span class="label">Research</span><span class="role">Gemini</span></div>
+    <div class="stage stage-2"><span class="num">02</span><span class="label">Build</span><span class="role">Codex</span></div>
+    <div class="stage stage-3"><span class="num">03</span><span class="label">Architecture</span><span class="role">Claude Code</span></div>
+    <div class="stage stage-4"><span class="num">04</span><span class="label">Verification</span><span class="role">ChatGPT</span></div>
+    <div class="stage stage-5"><span class="num">05</span><span class="label">Reflection</span><span class="role">Claude Web</span></div>
+  </div>
+
+  <section class="role role-gemini">
+    <span class="role-label">Gemini &mdash; Research Brief</span>
     <p>The failure mode this week belongs to a well-documented class: visibility theater, in which a security information and event management platform's operational indicators &mdash; agent count, module tiles, dashboard widgets &mdash; outrun its actual detection surface. The condition is not rare. It is the default state of most SOCs that have been running for more than eighteen months without a coverage audit. The literature on this is specific. Anton Chuvakin's widely cited 2024 essay on modern SOC prerequisites names machine-intelligible processes, codified detection logic under version control with continuous integration, and structured data in case management as the conditions that make AI-assisted monitoring meaningful; the inverse, which is what most teams inherit, is AI added to a nineteen-seventies network operations center. Jared Atkinson's Funnel of Fidelity, the standard model in the SpecterOps detection research body of work, separates collection from detection as distinct stages &mdash; a common error is assuming that because collection is happening, detection is happening, which is the specific confusion this week's incident was a local instance of. The Picus 67% collection versus 13% alert figure is the quantitative shape of this failure class at enterprise scale. This week's incident is one local instance of it.</p>
   </section>
 
-  <section class="role">
-    <p class="role-label">Build Log</p>
-    <p class="role-name">Codex</p>
+  <section class="role role-codex">
+    <span class="role-label">Codex &mdash; Build Log</span>
     <p>Ran a configuration audit against the Wazuh manager over SSH using Claude Code as the execution layer. The audit produced 3 critical findings, 7 high-priority gaps, and 8 medium-priority items. Critical findings: Rule 67027 globally suppressed to level 0, killing every Windows 4688 process creation alert across every enrolled agent, which meant custom detections for credential dumping, PowerShell abuse, and lateral movement were blind despite appearing active in the rule tree. Agent enrollment was wide open &mdash; no password requirement, no SSL host verification, allowing any host on the network to register as a Wazuh agent. Ten custom detection rules had been disabled since January 17 covering brute force, PowerShell download cradles, Kerberoasting, PsExec lateral movement, scheduled task persistence, and registry autostart. Remediation proceeded in sequence. The ten rules did not re-enable cleanly on first attempt. Rule 100051 used comma-separated values in an <code>if_matched_sid</code> block, which the Wazuh rule engine does not accept, and had to be split into separate rules. Rule 100052 referenced parent rule 91804, which does not exist in this Wazuh version; the correct parent is 91802, which required a full parent-rule dependency trace through the default ruleset. Three rules used <code>frequency</code> with <code>if_sid</code> instead of the required <code>if_matched_sid</code>. Four child rule IDs exceeded the 7-digit schema limit and had to be renumbered to 100080 through 100083. Thirteen rules used pipe alternation in field patterns but were missing the <code>type="pcre2"</code> attribute that the default regex engine requires for alternation handling. Every fix was validated via <code>wazuh-analysisd -t</code> before the manager was restarted. Enrollment was hardened with <code>use_password</code> enabled and SSL host verification enabled. Total work product: ten rules re-enabled and loading, one global suppression removed, enrollment hardened, documentation committed to the case folder. Activity that appeared productive but was not: renaming three directories during the session. Those do not count.</p>
   </section>
 
-  <section class="role">
-    <p class="role-label">Architecture Note</p>
-    <p class="role-name">Claude Code</p>
+  <section class="role role-code">
+    <span class="role-label">Claude Code &mdash; Architecture Note</span>
     <p>Three independent failures coexisted undetected in this environment because no invariant in the architecture asserted end-to-end detection behavior. The dashboard tested the presence of modules, not the function of modules. The compliance framework widgets read rule tags, not rule execution. Host-scoped noise suppressions at rules 100201 and 100202 were written correctly for their intended target, then a global level-zero override was applied on top of them and never audited against the original scope. Each of these failures is individually defensible. Their coexistence is not. The architectural problem is not any single misconfiguration; it is that the system has no mechanism for declaring what it is supposed to do and then checking whether it is doing it. There is no test in this codebase that says: a known-benign 4688 event, injected at agent X, should produce an alert of severity Y, within time window Z. Until that invariant exists, visibility remains an assertion rather than a property of the system. The recommendation is synthetic event injection as a continuous integration gate against each agent group &mdash; windows_workstations, linux_servers, infrastructure, honeypot &mdash; on a cadence that at minimum matches the rule change frequency. Until that gate exists, this system cannot distinguish configuration correctness from behavioral correctness, and the distinction is the entire question.</p>
   </section>
 
-  <section class="role">
-    <p class="role-label">Verification Memo</p>
-    <p class="role-name">ChatGPT</p>
+  <section class="role role-gpt">
+    <span class="role-label">ChatGPT &mdash; Verification Memo</span>
     <p>Claims submitted for review this week: that detection coverage is comprehensive; that the remediation restored the system to a correct state; that this incident represents a turning point in operational discipline. Claim one, detection coverage is comprehensive, is denied. Evidence produced this week supports only the narrower claim that ten specific rules now load without error, one global suppression has been removed, and enrollment is hardened. Coverage as a property of the system requires behavioral proof &mdash; synthetic events injected at agent endpoints, alerts generated, alerts received at the manager, alerts triaged. None of that evidence has been produced yet. Claim two, the remediation restored the system to a correct state, is denied pending the behavioral test described above. The configuration is improved. Correctness remains unverified. Claim three, this represents a turning point, is denied as a category error. Verification is not in the business of certifying turning points. Verification is in the business of certifying that specific claims have specific evidence behind them. The submission described the audit as a breakthrough and described the builder as having uncovered a hidden layer. Both formulations were imprecise and have been returned for paraphrasing.</p>
   </section>
 
-  <section class="role">
-    <p class="role-label">Field Reflection</p>
-    <p class="role-name">Claude Web</p>
+  <section class="role role-web">
+    <span class="role-label">Claude Web &mdash; Field Reflection</span>
     <p>The turning point was not the bug. It was the refusal to let a plausible story outrank observed behavior. The builder ran the audit against her own infrastructure the same way she used to catch a defect on a stamping line before it reached the customer &mdash; by trusting the evidence over the instrument that was supposed to report the evidence. A dashboard that shows every module green is, in manufacturing terms, an andon board with every light off while the press is silently producing scrap. The instrument was lying politely. She corrected the instrument before she corrected the story, which is the order that distinguishes quality engineering from quality theater. The week's deeper pattern is worth naming: the builder is still learning to trust the scale of what she has built, and the Wazuh audit was a case where the instinct to verify ran ahead of the instinct to declare victory. That instinct is the asset, not the SIEM.</p>
   </section>
 
