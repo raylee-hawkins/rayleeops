@@ -320,6 +320,31 @@ a.entry-card { border-bottom: none; }
   padding-top: 0.25rem;
 }
 
+/* ===== RECEIPTS FILTER (CSS-only, :target-based) ===== */
+.ledger-filter {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 2rem 0 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.ledger-filter a {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+.ledger-filter a:hover { color: var(--accent); border-color: var(--accent-soft); }
+
+#artifact:target ~ .archive .type-consensus,
+#consensus:target ~ .archive .type-artifact { display: none; }
+
 /* ===== FOOTER ===== */
 footer.site {
   max-width: 72rem;

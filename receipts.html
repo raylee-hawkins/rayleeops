@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Receipts &mdash; The Ledger</title>
-<meta name="description" content="The archive of weekly Council Reviews published on The Ledger.">
+<meta name="description" content="The archive of Artifact Reviews and Weekly Consensus entries published on The Ledger.">
 <meta property="og:title" content="Receipts &mdash; The Ledger">
-<meta property="og:description" content="The archive of weekly Council Reviews published on The Ledger.">
+<meta property="og:description" content="The archive of Artifact Reviews and Weekly Consensus entries published on The Ledger.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://rayleeops.com/receipts.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,24 +24,36 @@
 
 <main class="wrap">
   <h1>Receipts</h1>
-  <p class="lede">The archive of weekly Council Reviews. Most recent first.</p>
+  <p class="lede">The archive. Artifact Reviews are five-role Council Reviews of a specific closed artifact. Weekly Consensus is the operator's own synthesis across the week's artifacts &mdash; single voice, no council, and only written in weeks with two or more new artifacts.</p>
 
-  <div class="entry-card">
-    <p class="meta">Week of April 11, 2026 &middot; Incident Review</p>
-    <h3><a href="/entries/2026-04-11-counter-certified-nothing.html">The Counter Certified Nothing</a></h3>
-    <p>A newly authored content validator surfaced 33 duplicate-ID collisions in a 103-rule Sigma library &mdash; invisible to the existing file-count gate for months. 101 files remediated in a single mechanically-verified pass.</p>
-  </div>
+  <div id="all"></div>
+  <div id="artifact"></div>
+  <div id="consensus"></div>
 
-  <div class="entry-card">
-    <p class="meta">Week of April 7, 2026 &middot; Incident Review</p>
-    <h3><a href="/entries/2026-04-07-dashboard-lied-politely.html">The Dashboard Lied Politely</a></h3>
-    <p>A Wazuh configuration audit found three independent failures coexisting undetected. The system was configuration-correct and behaviorally blind.</p>
-  </div>
+  <nav class="ledger-filter">
+    <a href="#all">All</a>
+    <a href="#artifact">Artifact Reviews</a>
+    <a href="#consensus">Weekly Consensus</a>
+  </nav>
 
-  <div class="entry-card">
-    <p class="meta">Week of April 1, 2026 &middot; Incident Review</p>
-    <h3><a href="/entries/2026-04-01-pipeline-ate-itself.html">The Pipeline Ate Itself at Five Hundred Thousand</a></h3>
-    <p>A TOCTOU race condition, latent for months, became fatal at a scale the system had never been stressed to. Diagnosed, patched, validated under live load.</p>
+  <div class="archive">
+    <div class="entry-card type-artifact">
+      <p class="meta">2026-04-12 &middot; Artifact Review &middot; Sigma rule library</p>
+      <h3><a href="/entries/2026-04-11-counter-certified-nothing.html">The Counter Certified Nothing</a></h3>
+      <p>A newly authored content validator surfaced 33 duplicate-ID collisions in a 103-rule Sigma library &mdash; invisible to the existing file-count gate for months. 101 files remediated in a single mechanically-verified pass.</p>
+    </div>
+
+    <div class="entry-card type-artifact">
+      <p class="meta">2026-04-07 &middot; Artifact Review &middot; Wazuh manager config</p>
+      <h3><a href="/entries/2026-04-07-dashboard-lied-politely.html">The Dashboard Lied Politely</a></h3>
+      <p>A Wazuh configuration audit found three independent failures coexisting undetected. The system was configuration-correct and behaviorally blind.</p>
+    </div>
+
+    <div class="entry-card type-artifact">
+      <p class="meta">2026-04-01 &middot; Artifact Review &middot; AutoSOC ingest pipeline</p>
+      <h3><a href="/entries/2026-04-01-pipeline-ate-itself.html">The Pipeline Ate Itself at Five Hundred Thousand</a></h3>
+      <p>A TOCTOU race condition, latent for months, became fatal at a scale the system had never been stressed to. Diagnosed, patched, validated under live load.</p>
+    </div>
   </div>
 </main>
 

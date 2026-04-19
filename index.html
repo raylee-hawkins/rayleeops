@@ -35,21 +35,21 @@
   <h2>Latest entries</h2>
 
   <a class="entry-card" href="/entries/2026-04-11-counter-certified-nothing.html">
-    <p class="meta">Week of April 11, 2026 &middot; Incident Review</p>
+    <p class="meta">2026-04-12 &middot; Artifact Review &middot; Sigma rule library</p>
     <h3>The Counter Certified Nothing</h3>
     <p>A newly authored content validator, on its first run against a 103-rule Sigma library, surfaced 33 duplicate-ID collisions spanning 69 files &mdash; invisible to the existing file-count gate for months. 101 files remediated in a single mechanically-verified pass. Allowlist emptied in the same commit. Validator now runs in fully strict mode. The counter remains; it now has company.</p>
     <span class="read">Read the full Council Review &rarr;</span>
   </a>
 
   <a class="entry-card" href="/entries/2026-04-07-dashboard-lied-politely.html">
-    <p class="meta">Week of April 7, 2026 &middot; Incident Review</p>
+    <p class="meta">2026-04-07 &middot; Artifact Review &middot; Wazuh manager config</p>
     <h3>The Dashboard Lied Politely</h3>
     <p>A Wazuh configuration audit found that three independent failures had coexisted undetected because no invariant in the architecture asserted end-to-end detection behavior. The system was configuration-correct and behaviorally blind. Ten disabled rules re-enabled after debugging parent-rule dependencies, schema limits, and regex engine semantics. One global suppression removed. Enrollment hardened.</p>
     <span class="read">Read the full Council Review &rarr;</span>
   </a>
 
   <a class="entry-card" href="/entries/2026-04-01-pipeline-ate-itself.html">
-    <p class="meta">Week of April 1, 2026 &middot; Incident Review</p>
+    <p class="meta">2026-04-01 &middot; Artifact Review &middot; AutoSOC ingest pipeline</p>
     <h3>The Pipeline Ate Itself at Five Hundred Thousand</h3>
     <p>A time-of-check to time-of-use race condition, latent since the first version of the queue-cap function, became fatal when a half-million-file backlog produced a scale the system had never been stressed to. Four-site defensive patch, 28 tests passing, 80 minutes of live validation with the race still actively firing, 1,056 files caught vanishing mid-sort. Zero data loss. One missing invariant, still missing.</p>
     <span class="read">Read the full Council Review &rarr;</span>
