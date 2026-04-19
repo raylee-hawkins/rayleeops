@@ -27,6 +27,30 @@
   <h1>The Counter Certified Nothing</h1>
   <p class="status">Incident status: resolved. Instrument status: replaced.</p>
 
+  <figure class="entry-figure">
+    <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="uuidfig-title uuidfig-desc">
+      <title id="uuidfig-title">UUIDv4 version nibble — the byte the counter did not look at</title>
+      <desc id="uuidfig-desc">Two UUID strings, one placeholder and one real. The third group's first character is highlighted: 7 in the placeholder, 4 in the real one. The counter only checked shape.</desc>
+
+      <text x="30" y="55" font-family="JetBrains Mono, ui-monospace, monospace" font-size="21" fill="#a9b4c8" letter-spacing="1">1a2b3c4d-5e6f-<tspan fill="#f59e0b" font-weight="700">7</tspan>a8b-9c0d-1e2f3a4b5c6d</text>
+      <ellipse cx="241" cy="48" rx="13" ry="15" stroke="#f59e0b" stroke-width="1.6" fill="none" transform="rotate(-5 241 48)"/>
+      <text x="30" y="82" font-family="Inter, sans-serif" font-size="11" fill="#6b7690" letter-spacing="2.1" font-weight="500">PLACEHOLDER &#8212; ACCEPTED BY THE FILE COUNTER</text>
+
+      <path d="M 258 52 C 305 55, 360 82, 420 108" stroke="#f59e0b" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <polyline points="410,102 420,108 416,118" stroke="#f59e0b" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <text x="432" y="108" font-family="Inter, sans-serif" font-size="14" font-style="italic" fill="#e6edf7">should be 4.</text>
+      <text x="432" y="128" font-family="Inter, sans-serif" font-size="14" font-style="italic" fill="#e6edf7">was 7. the counter did not look.</text>
+
+      <line x1="30" y1="155" x2="690" y2="155" stroke="#2a3454" stroke-width="1" stroke-dasharray="2 4"/>
+
+      <text x="30" y="188" font-family="JetBrains Mono, ui-monospace, monospace" font-size="21" fill="#a9b4c8" letter-spacing="1">a3f8c291-7b0e-<tspan fill="#34d399" font-weight="700">4</tspan>c5d-a1f2-e94b76c8f031</text>
+      <ellipse cx="243" cy="181" rx="13" ry="15" stroke="#34d399" stroke-width="1.6" fill="none" transform="rotate(4 243 181)"/>
+      <text x="30" y="212" font-family="Inter, sans-serif" font-size="11" fill="#6b7690" letter-spacing="2.1" font-weight="500">REAL UUIDV4 &#8212; THIRD GROUP OPENS WITH 4. ALWAYS.</text>
+    </svg>
+    <figcaption>One nibble. 101 files. Months of CI passing on a question nobody was asking.</figcaption>
+  </figure>
+
   <div class="pipeline">
     <div class="stage stage-1"><span class="num">01</span><span class="label">Research</span><span class="role">Gemini</span></div>
     <div class="stage stage-2"><span class="num">02</span><span class="label">Build</span><span class="role">Codex</span></div>
@@ -52,7 +76,38 @@
 
   <section class="role role-gpt">
     <span class="role-label">ChatGPT &mdash; Verification Memo</span>
-    <p>Claims submitted for review this week: that the detection library passes CI; that the remediation is complete; that the CI story is now worth telling. Claim one, the library passes CI, is approved with a footnote. It is true as of this commit and under the new gate; it was also true last month under the old gate, and that prior truth certified nothing. The honest version of this claim is "the library passes a CI configuration that is now capable of rejecting the specific bug it just found." Claim two, the remediation is complete, is approved. Evidence: 101 files updated, 103 Sigma IDs audited as unique and version-4 compliant (third group starts with <code>4</code>, fourth group starts with <code>[89ab]</code>), allowlist emptied in the same commit, validator reports zero errors and zero warnings on both local and CI runs. Claim three, the CI story is now worth telling, is approved for the narrow sense: the story worth telling is not "all rules pass CI" but "a new gate was added, its first run found 33 collisions invisible to the prior gate, and 101 files were remediated in a single mechanically-verified pass." That is a demonstration that the gate catches things, which is the only thing a gate can be worth. The broader claim &mdash; that the pipeline's full integrity surface is now gated &mdash; is denied pending the behavioral injection harness the architecture note describes.</p>
+    <p class="vf-lede">Four claims submitted. Dispositions on the record.</p>
+    <div class="verification-form" role="table" aria-label="Verification Memo">
+      <div class="vf-header" role="row">
+        <span role="columnheader">Claim</span>
+        <span role="columnheader">Status</span>
+        <span role="columnheader">Evidence / Notes</span>
+      </div>
+
+      <div class="vf-row" role="row">
+        <div class="vf-claim" role="cell">The library passes CI.</div>
+        <div role="cell"><span class="vf-stamp footnoted">APPROVED<sup>&#8251;</sup></span></div>
+        <div class="vf-evidence" role="cell">True under the new gate. Also "true" last month under the old gate, and that prior truth certified nothing. Honest version: passes a configuration now capable of rejecting the specific bug it just found.</div>
+      </div>
+
+      <div class="vf-row" role="row">
+        <div class="vf-claim" role="cell">Remediation is complete.</div>
+        <div role="cell"><span class="vf-stamp approved">APPROVED</span></div>
+        <div class="vf-evidence" role="cell">101 files updated. 103 Sigma IDs audited unique and v4-compliant (third group opens with <code>4</code>, fourth with <code>[89ab]</code>). Allowlist emptied same commit. Zero errors, zero warnings, local and CI.</div>
+      </div>
+
+      <div class="vf-row" role="row">
+        <div class="vf-claim" role="cell">The CI story is worth telling.</div>
+        <div role="cell"><span class="vf-stamp narrowed">NARROWED</span></div>
+        <div class="vf-evidence" role="cell">Not "all rules pass CI." The telling version: a new gate caught 33 invisible collisions on first run; 101 files remediated in one mechanically-verified pass. A gate is only worth its catches.</div>
+      </div>
+
+      <div class="vf-row" role="row">
+        <div class="vf-claim" role="cell">The pipeline's full integrity surface is now gated.</div>
+        <div role="cell"><span class="vf-stamp denied">DENIED</span></div>
+        <div class="vf-evidence" role="cell">Pending behavioral injection harness. Architecture note carries the shape.</div>
+      </div>
+    </div>
   </section>
 
   <section class="role role-web">
