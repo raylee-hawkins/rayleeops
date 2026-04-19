@@ -27,6 +27,67 @@
   <h1>The Pipeline Ate Itself at Five Hundred Thousand</h1>
   <p class="status">Incident status: resolved. Severity: elected, in retrospect, to have been serious.</p>
 
+  <figure class="entry-figure">
+    <svg viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pipe-fig-title pipe-fig-desc">
+      <title id="pipe-fig-title">Queue depth leading to the crash, and race events caught after the patch</title>
+      <desc id="pipe-fig-desc">Top panel: queue depth grows from 2,800 files at 05:29 UTC to 505,836 files at 07:44 UTC, crashing at the peak. Bottom panel: a strip of dots representing 1,056 race events caught during 80 minutes of live post-patch validation.</desc>
+
+      <text x="30" y="22" font-family="Inter, sans-serif" font-size="11" letter-spacing="2" font-weight="500" fill="#6b7690">QUEUE DEPTH &#8212; 05:29 TO 07:44 UTC, 2026-04-01</text>
+
+      <line x1="60" y1="150" x2="690" y2="150" stroke="#2a3454" stroke-width="1"/>
+      <line x1="60" y1="150" x2="60" y2="50" stroke="#2a3454" stroke-width="1"/>
+
+      <path d="M 62 147 C 180 143, 300 128, 420 100 S 580 56, 625 42" stroke="#f59e0b" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M 62 147 C 180 143, 300 128, 420 100 S 580 56, 625 42 L 625 150 L 62 150 Z" fill="rgba(245,158,11,0.08)" stroke="none"/>
+
+      <circle cx="62" cy="147" r="3" fill="#a9b4c8"/>
+      <text x="72" y="142" font-family="JetBrains Mono, monospace" font-size="10" fill="#a9b4c8">2,800</text>
+      <text x="55" y="170" font-family="Inter, sans-serif" font-size="10" fill="#6b7690">05:29</text>
+
+      <circle cx="625" cy="42" r="5" fill="none" stroke="#f87171" stroke-width="2"/>
+      <path d="M 620 37 L 630 47 M 630 37 L 620 47" stroke="#f87171" stroke-width="2" stroke-linecap="round"/>
+
+      <text x="485" y="38" font-family="Inter, sans-serif" font-size="12" font-style="italic" fill="#e6edf7">crash at 07:44</text>
+      <text x="485" y="55" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#f87171">505,836 files</text>
+
+      <text x="670" y="170" font-family="Inter, sans-serif" font-size="10" fill="#6b7690">07:44</text>
+      <text x="355" y="170" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-style="italic" fill="#6b7690">~2h, 1.1M alert backlog draining into a race window that was never stressed</text>
+
+      <line x1="30" y1="195" x2="690" y2="195" stroke="#2a3454" stroke-width="1" stroke-dasharray="2 4"/>
+
+      <text x="30" y="220" font-family="Inter, sans-serif" font-size="11" letter-spacing="2" font-weight="500" fill="#6b7690">RACE EVENTS CAUGHT &#8212; 80 MIN LIVE VALIDATION, POST-PATCH</text>
+
+      <line x1="60" y1="295" x2="690" y2="295" stroke="#2a3454" stroke-width="1"/>
+
+      <g fill="#34d399">
+        <circle cx="68" cy="258" r="1.8"/><circle cx="73" cy="272" r="1.8"/><circle cx="78" cy="264" r="1.8"/>
+        <circle cx="84" cy="252" r="1.8"/><circle cx="89" cy="268" r="1.8"/><circle cx="95" cy="274" r="1.8"/>
+        <circle cx="101" cy="260" r="1.8"/><circle cx="106" cy="255" r="1.8"/><circle cx="112" cy="270" r="1.8"/>
+        <circle cx="118" cy="262" r="1.8"/><circle cx="124" cy="276" r="1.8"/><circle cx="130" cy="254" r="1.8"/>
+        <circle cx="137" cy="266" r="1.8"/><circle cx="143" cy="272" r="1.8"/><circle cx="149" cy="258" r="1.8"/>
+        <circle cx="156" cy="280" r="1.8"/><circle cx="163" cy="262" r="1.8"/><circle cx="170" cy="268" r="1.8"/>
+        <circle cx="178" cy="256" r="1.8"/><circle cx="185" cy="274" r="1.8"/><circle cx="193" cy="264" r="1.8"/>
+        <circle cx="201" cy="270" r="1.8"/><circle cx="210" cy="258" r="1.8"/><circle cx="219" cy="276" r="1.8"/>
+        <circle cx="228" cy="262" r="1.8"/><circle cx="238" cy="268" r="1.8"/><circle cx="248" cy="254" r="1.8"/>
+        <circle cx="258" cy="272" r="1.8"/><circle cx="269" cy="264" r="1.8"/><circle cx="280" cy="258" r="1.8"/>
+        <circle cx="291" cy="276" r="1.8"/><circle cx="303" cy="266" r="1.8"/><circle cx="315" cy="260" r="1.8"/>
+        <circle cx="328" cy="274" r="1.8"/><circle cx="341" cy="268" r="1.8"/><circle cx="355" cy="256" r="1.8"/>
+        <circle cx="369" cy="272" r="1.8"/><circle cx="383" cy="264" r="1.8"/><circle cx="398" cy="278" r="1.8"/>
+        <circle cx="413" cy="260" r="1.8"/><circle cx="429" cy="270" r="1.8"/><circle cx="445" cy="266" r="1.8"/>
+        <circle cx="462" cy="258" r="1.8"/><circle cx="479" cy="274" r="1.8"/><circle cx="496" cy="262" r="1.8"/>
+        <circle cx="514" cy="270" r="1.8"/><circle cx="532" cy="256" r="1.8"/><circle cx="550" cy="272" r="1.8"/>
+        <circle cx="569" cy="266" r="1.8"/><circle cx="588" cy="260" r="1.8"/><circle cx="607" cy="274" r="1.8"/>
+        <circle cx="626" cy="264" r="1.8"/><circle cx="645" cy="270" r="1.8"/><circle cx="664" cy="258" r="1.8"/>
+        <circle cx="682" cy="268" r="1.8"/>
+      </g>
+
+      <text x="60" y="315" font-family="Inter, sans-serif" font-size="10" fill="#6b7690">t = 0</text>
+      <text x="665" y="315" font-family="Inter, sans-serif" font-size="10" fill="#6b7690">t = 80 min</text>
+      <text x="360" y="342" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#34d399">1,056 catches &middot; 0 unhandled exceptions &middot; 0 data loss</text>
+    </svg>
+    <figcaption>The race fired 1,056 times during the live validation window. The patch caught every one.</figcaption>
+  </figure>
+
   <div class="pipeline">
     <div class="stage stage-1"><span class="num">01</span><span class="label">Build</span><span class="role">Codex</span></div>
     <div class="stage stage-2"><span class="num">02</span><span class="label">Architecture</span><span class="role">Claude Code</span></div>

@@ -27,6 +27,44 @@
   <h1>The Dashboard Lied Politely</h1>
   <p class="status">Incident status: resolved. Narrative status: still under review.</p>
 
+  <figure class="entry-figure">
+    <svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pyramid-fig-title pyramid-fig-desc">
+      <title id="pyramid-fig-title">Severity pyramid, as dashboarded versus as required</title>
+      <desc id="pyramid-fig-desc">Two three-tier pyramids side by side. Left pyramid is weighted by count (medium widest, critical narrowest). Right pyramid is inverted, weighted by impact (critical widest, medium narrowest). Same 18 findings, different visual argument.</desc>
+
+      <text x="180" y="24" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" letter-spacing="2" font-weight="500" fill="#6b7690">AS THE DASHBOARD SHOWED IT</text>
+
+      <polygon points="155,55 205,55 215,95 145,95" fill="rgba(248,113,113,0.08)" stroke="#f87171" stroke-width="1.5"/>
+      <text x="180" y="82" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#e6edf7">3 critical</text>
+
+      <polygon points="145,95 215,95 235,145 125,145" fill="rgba(245,158,11,0.06)" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="180" y="126" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#e6edf7">7 high</text>
+
+      <polygon points="125,145 235,145 260,205 100,205" fill="rgba(34,211,238,0.05)" stroke="#22d3ee" stroke-width="1.5"/>
+      <text x="180" y="180" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#e6edf7">8 medium</text>
+
+      <text x="180" y="232" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-style="italic" fill="#6b7690">width: by count</text>
+
+      <line x1="360" y1="40" x2="360" y2="240" stroke="#2a3454" stroke-width="1" stroke-dasharray="2 4"/>
+
+      <text x="540" y="24" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" letter-spacing="2" font-weight="500" fill="#6b7690">AS THE WORK REQUIRED IT</text>
+
+      <polygon points="425,55 655,55 625,95 455,95" fill="rgba(248,113,113,0.14)" stroke="#f87171" stroke-width="1.8"/>
+      <text x="540" y="82" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#fff">3 critical</text>
+
+      <polygon points="455,95 625,95 605,145 475,145" fill="rgba(245,158,11,0.08)" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="540" y="126" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#e6edf7">7 high</text>
+
+      <polygon points="475,145 605,145 580,205 500,205" fill="rgba(34,211,238,0.05)" stroke="#22d3ee" stroke-width="1.5"/>
+      <text x="540" y="180" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#e6edf7">8 medium</text>
+
+      <text x="540" y="232" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-style="italic" fill="#6b7690">width: by impact</text>
+
+      <text x="360" y="268" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-style="italic" fill="#e6edf7">Same 18 findings. Different visual argument.</text>
+    </svg>
+    <figcaption>The dashboard weighted findings by count. The work was load-bearing on the three at the top.</figcaption>
+  </figure>
+
   <div class="pipeline">
     <div class="stage stage-1"><span class="num">01</span><span class="label">Build</span><span class="role">Codex</span></div>
     <div class="stage stage-2"><span class="num">02</span><span class="label">Architecture</span><span class="role">Claude Code</span></div>
@@ -51,7 +89,7 @@
 
   <section class="role role-web">
     <span class="role-label">Claude Web &mdash; Field Reflection</span>
-    <p>The turning point was not the bug. It was the refusal to let a plausible story outrank observed behavior. The builder ran the audit against her own infrastructure the same way she used to catch a defect on a stamping line before it reached the customer &mdash; by trusting the evidence over the instrument that was supposed to report the evidence. A dashboard that shows every module green is, in manufacturing terms, an andon board with every light off while the press is silently producing scrap. The instrument was lying politely. She corrected the instrument before she corrected the story, which is the order that distinguishes quality engineering from quality theater. The week's deeper pattern is worth naming: the builder is still learning to trust the scale of what she has built, and the Wazuh audit was a case where the instinct to verify ran ahead of the instinct to declare victory. That instinct is the asset, not the SIEM.</p>
+    <p><span class="withdrawn">The turning point was not the bug.</span> It was the refusal to let a plausible story outrank observed behavior. The builder ran the audit against her own infrastructure the same way she used to catch a defect on a stamping line before it reached the customer &mdash; by trusting the evidence over the instrument that was supposed to report the evidence. A dashboard that shows every module green is, in manufacturing terms, an andon board with every light off while the press is silently producing scrap. The instrument was lying politely. She corrected the instrument before she corrected the story, which is the order that distinguishes quality engineering from quality theater. The week's deeper pattern is worth naming: the builder is still learning to trust the scale of what she has built, and the Wazuh audit was a case where the instinct to verify ran ahead of the instinct to declare victory. That instinct is the asset, not the SIEM.</p>
   </section>
 
   <div class="standing">
