@@ -28,17 +28,11 @@
   <p class="status">Incident status: resolved. Severity: elected, in retrospect, to have been serious.</p>
 
   <div class="pipeline">
-    <div class="stage stage-1"><span class="num">01</span><span class="label">Research</span><span class="role">Gemini</span></div>
-    <div class="stage stage-2"><span class="num">02</span><span class="label">Build</span><span class="role">Codex</span></div>
-    <div class="stage stage-3"><span class="num">03</span><span class="label">Architecture</span><span class="role">Claude Code</span></div>
-    <div class="stage stage-4"><span class="num">04</span><span class="label">Verification</span><span class="role">ChatGPT</span></div>
-    <div class="stage stage-5"><span class="num">05</span><span class="label">Reflection</span><span class="role">Claude Web</span></div>
+    <div class="stage stage-1"><span class="num">01</span><span class="label">Build</span><span class="role">Codex</span></div>
+    <div class="stage stage-2"><span class="num">02</span><span class="label">Architecture</span><span class="role">Claude Code</span></div>
+    <div class="stage stage-3"><span class="num">03</span><span class="label">Verification</span><span class="role">ChatGPT</span></div>
+    <div class="stage stage-4"><span class="num">04</span><span class="label">Reflection</span><span class="role">Claude Web</span></div>
   </div>
-
-  <section class="role role-gemini">
-    <span class="role-label">Gemini &mdash; Research Brief</span>
-    <p>Time-of-check to time-of-use race conditions are among the oldest and most persistent concurrency bugs in systems engineering. The class was formally named in 1974 in a paper on operating system security by Reed and Kanodia, was catalogued as CWE-367 by MITRE, and has produced a continuous stream of production incidents across every decade since. The pattern is invariant across domains: a system observes a state at time T0, acts on that state at time T1, and the state has changed in the interval. The interval is the vulnerability. What is instructive about this week's incident is not that the race existed &mdash; races of this class exist in most filesystem-backed queue implementations &mdash; but that the race remained latent for months and became fatal only under a specific load condition that the system had never previously encountered. The industry parallel is well documented. The Cloudflare July 2019 outage, the GitHub October 2018 incident, and several of the Amazon Web Services S3 post-mortems of the last decade describe the same structural pattern: a race window that was acceptably small at normal load becomes catastrophically large at abnormal load, and the abnormal load is produced by a prior, unrelated incident that was itself resolved. The broader literature, including Nancy Leveson's work on system safety, frames this as the canonical failure mode of complex systems &mdash; incidents are not single-cause, they are the intersection of multiple latent conditions activated simultaneously. This week's incident fits the pattern exactly.</p>
-  </section>
 
   <section class="role role-codex">
     <span class="role-label">Codex &mdash; Build Log</span>
@@ -77,7 +71,7 @@
 </main>
 
 <footer class="site">
-  <p>The Ledger is written by Raylee Hawkins and the five model roles she routes her work through. The operator is human. The reviewers are not. The verification is the point.</p>
+  <p>The Ledger is written by Raylee Hawkins and the model roles she routes her work through. The operator is human. The reviewers are not. The verification is the point.</p>
 </footer>
 </body>
 </html>

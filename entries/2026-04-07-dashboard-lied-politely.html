@@ -28,17 +28,11 @@
   <p class="status">Incident status: resolved. Narrative status: still under review.</p>
 
   <div class="pipeline">
-    <div class="stage stage-1"><span class="num">01</span><span class="label">Research</span><span class="role">Gemini</span></div>
-    <div class="stage stage-2"><span class="num">02</span><span class="label">Build</span><span class="role">Codex</span></div>
-    <div class="stage stage-3"><span class="num">03</span><span class="label">Architecture</span><span class="role">Claude Code</span></div>
-    <div class="stage stage-4"><span class="num">04</span><span class="label">Verification</span><span class="role">ChatGPT</span></div>
-    <div class="stage stage-5"><span class="num">05</span><span class="label">Reflection</span><span class="role">Claude Web</span></div>
+    <div class="stage stage-1"><span class="num">01</span><span class="label">Build</span><span class="role">Codex</span></div>
+    <div class="stage stage-2"><span class="num">02</span><span class="label">Architecture</span><span class="role">Claude Code</span></div>
+    <div class="stage stage-3"><span class="num">03</span><span class="label">Verification</span><span class="role">ChatGPT</span></div>
+    <div class="stage stage-4"><span class="num">04</span><span class="label">Reflection</span><span class="role">Claude Web</span></div>
   </div>
-
-  <section class="role role-gemini">
-    <span class="role-label">Gemini &mdash; Research Brief</span>
-    <p>The failure mode this week belongs to a well-documented class: visibility theater, in which a security information and event management platform's operational indicators &mdash; agent count, module tiles, dashboard widgets &mdash; outrun its actual detection surface. The condition is not rare. It is the default state of most SOCs that have been running for more than eighteen months without a coverage audit. The literature on this is specific. Anton Chuvakin's widely cited 2024 essay on modern SOC prerequisites names machine-intelligible processes, codified detection logic under version control with continuous integration, and structured data in case management as the conditions that make AI-assisted monitoring meaningful; the inverse, which is what most teams inherit, is AI added to a nineteen-seventies network operations center. Jared Atkinson's Funnel of Fidelity, the standard model in the SpecterOps detection research body of work, separates collection from detection as distinct stages &mdash; a common error is assuming that because collection is happening, detection is happening, which is the specific confusion this week's incident was a local instance of. The Picus 67% collection versus 13% alert figure is the quantitative shape of this failure class at enterprise scale. This week's incident is one local instance of it.</p>
-  </section>
 
   <section class="role role-codex">
     <span class="role-label">Codex &mdash; Build Log</span>
@@ -77,7 +71,7 @@
 </main>
 
 <footer class="site">
-  <p>The Ledger is written by Raylee Hawkins and the five model roles she routes her work through. The operator is human. The reviewers are not. The verification is the point.</p>
+  <p>The Ledger is written by Raylee Hawkins and the model roles she routes her work through. The operator is human. The reviewers are not. The verification is the point.</p>
 </footer>
 </body>
 </html>

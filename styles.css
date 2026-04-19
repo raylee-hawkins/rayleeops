@@ -206,11 +206,11 @@ code {
   font-style: italic;
 }
 
-.stage-1 { --stage-color: var(--role-gemini); }
-.stage-2 { --stage-color: var(--role-codex); }
-.stage-3 { --stage-color: var(--role-code); }
-.stage-4 { --stage-color: var(--role-gpt); }
-.stage-5 { --stage-color: var(--role-web); }
+.stage-1 { --stage-color: var(--role-codex); }
+.stage-2 { --stage-color: var(--role-code); }
+.stage-3 { --stage-color: var(--role-gpt); }
+.stage-4 { --stage-color: var(--role-web); }
+.stage-5 { --stage-color: var(--role-gemini); } /* dormant — used only when Gemini tiebreaks a split */
 
 /* ===== ROLE PANELS ===== */
 .role {
