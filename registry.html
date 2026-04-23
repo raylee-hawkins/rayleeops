@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registry &mdash; The Ledger</title>
+<meta name="description" content="The registry of HawkinsOps closed claims and their Ledger review state. Each row names a case study, its current review status, and the Ledger entry that contested it &mdash; or notes that no public Ledger review has been assigned yet.">
+<meta property="og:title" content="Registry &mdash; The Ledger">
+<meta property="og:description" content="The registry of HawkinsOps closed claims and their Ledger review state. Each row names a case study, its current review status, and the Ledger entry that contested it &mdash; or notes that no public Ledger review has been assigned yet.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rayleeops.com/registry.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+.registry-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0 2.25rem; font-size: 0.92rem; }
+.registry-table th { text-align: left; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border-strong); font-weight: 500; }
+.registry-table td { padding: 0.85rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--ink-soft); }
+.registry-table td.claim { color: var(--ink); font-weight: 500; }
+.registry-table td a { color: var(--accent); text-decoration: none; }
+.registry-table td a:hover { text-decoration: underline; }
+.registry-table .ho-link { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.78rem; }
+.status { display: inline-block; padding: 0.18rem 0.55rem; border-radius: 999px; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.7rem; letter-spacing: 0.04em; border: 1px solid; white-space: nowrap; }
+.status.resolved { color: var(--role-web); border-color: rgba(52, 211, 153, 0.35); background: rgba(52, 211, 153, 0.08); }
+.status.queued { color: var(--role-codex); border-color: rgba(245, 158, 11, 0.35); background: rgba(245, 158, 11, 0.08); }
+.status.open { color: var(--role-gemini); border-color: rgba(34, 211, 238, 0.35); background: rgba(34, 211, 238, 0.08); }
+.status.unreviewed { color: var(--ink-faint); border-color: var(--border-strong); background: var(--panel); }
+.status.system { color: var(--role-code); border-color: rgba(129, 140, 248, 0.30); background: rgba(129, 140, 248, 0.06); }
+.registry-table td.dest-empty { color: var(--ink-faint); font-style: italic; }
+.section-label { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin: 2.5rem 0 0.5rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+.legend { display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem; margin: 1rem 0 0; padding: 0; list-style: none; font-size: 0.85rem; color: var(--ink-soft); }
+.legend li { display: flex; align-items: center; gap: 0.5rem; }
+.coverage-note { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.78rem; color: var(--ink-faint); margin: 2.5rem 0 0; padding: 0.85rem 0; border-top: 1px solid var(--border); }
+@media (max-width: 700px) {
+  .registry-table { font-size: 0.85rem; }
+  .registry-table th, .registry-table td { padding: 0.55rem 0.4rem; }
+  .registry-table .ho-link { font-size: 0.72rem; word-break: break-all; }
+}
+</style>
+</head>
+<body>
+<nav class="site">
+  <span class="brand"><a href="/">The Ledger</a></span>
+  <a class="pill" href="/registry.html">Registry</a>
+  <a class="pill" href="/receipts.html">Receipts</a>
+  <a class="pill" href="/roles.html">Roles</a>
+  <a class="pill" href="/why.html">Why</a>
+</nav>
+
+<main class="wrap wide">
+  <h1>Registry</h1>
+  <p class="lede">Coverage map of HawkinsOps closed claims and their Ledger review state. Each row names a case study published on hawkinsops.com, its current review status here, and the Ledger entry that contested it &mdash; or notes that no public Ledger review has been assigned yet. The registry exists so coverage is honest: not every case study has been examined, and the page does not pretend otherwise.</p>
+
+  <h2>Review states</h2>
+  <ul class="legend">
+    <li><span class="status resolved">Resolved</span> Survived public Ledger review; both surfaces link.</li>
+    <li><span class="status queued">Queued</span> Designated for upcoming Ledger review.</li>
+    <li><span class="status open">Open Question</span> Under review; terminal state pending new evidence.</li>
+    <li><span class="status unreviewed">No public Ledger review yet</span> Eligible; no review assigned.</li>
+    <li><span class="status system">System surface</span> Composite or index page; pairing happens at the component-claim level.</li>
+  </ul>
+
+  <div class="section-label">System &amp; Flagship</div>
+  <table class="registry-table">
+    <thead>
+      <tr>
+        <th>Case study / surface</th>
+        <th>HawkinsOps</th>
+        <th>Status</th>
+        <th>Ledger entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="claim">SignalFoundry</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/signalfoundry">/signalfoundry</a></td>
+        <td><span class="status system">System surface</span></td>
+        <td class="dest-empty">paired via component claims</td>
+      </tr>
+      <tr>
+        <td class="claim">Detection Coverage</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/detections">/detections</a></td>
+        <td><span class="status system">System surface</span></td>
+        <td class="dest-empty">paired via component claims</td>
+      </tr>
+      <tr>
+        <td class="claim">Signal Architecture &mdash; AutoSOC System Model</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/architecture">/architecture</a></td>
+        <td><span class="status system">System surface</span></td>
+        <td class="dest-empty">paired via component claims</td>
+      </tr>
+      <tr>
+        <td class="claim">March 2026 System Hardening &amp; Pipeline Evolution</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/march-2026-deep-dive">/march-2026-deep-dive</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-label">Incident Response &amp; Recovery</div>
+  <table class="registry-table">
+    <thead>
+      <tr>
+        <th>Case study / surface</th>
+        <th>HawkinsOps</th>
+        <th>Status</th>
+        <th>Ledger entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="claim">Production Race Condition Recovery</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-race-condition">/case-study-race-condition</a></td>
+        <td><span class="status resolved">Resolved</span></td>
+        <td><a href="/entries/2026-04-01-pipeline-ate-itself.html">The Pipeline Ate Itself at Five Hundred Thousand</a></td>
+      </tr>
+      <tr>
+        <td class="claim">Pipeline Fault Recovery &mdash; Two Failure Domains</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-pipeline-recovery">/case-study-pipeline-recovery</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">IR Case: Level 12 FIM Alert &mdash; Triage to BENIGN</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-ir-howe01">/case-study-ir-howe01</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">IR Playbook Library</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-ir-playbooks">/case-study-ir-playbooks</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">CVE-2025-55130 &mdash; Detect to Remediation</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-cve-patch">/case-study-cve-patch</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">Hotfix RCA: Triage Quality Chart Renderer</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/autosoc-hotfix-rca">/autosoc-hotfix-rca</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">AutoSOC Infrastructure Cutover</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/autosoc-cutover">/autosoc-cutover</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-label">Detection Engineering</div>
+  <table class="registry-table">
+    <thead>
+      <tr>
+        <th>Case study / surface</th>
+        <th>HawkinsOps</th>
+        <th>Status</th>
+        <th>Ledger entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="claim">Sigma Detection Library</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-sigma-library">/case-study-sigma-library</a></td>
+        <td><span class="status queued">Queued</span></td>
+        <td class="dest-empty">candidate pair: <em>The Counter Certified Nothing</em></td>
+      </tr>
+      <tr>
+        <td class="claim">Wazuh Rule Blocks &mdash; Authored and Validated</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study">/case-study</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">Wazuh Windows Telemetry Remediation</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-wazuh">/case-study-wazuh</a></td>
+        <td><span class="status queued">Queued</span></td>
+        <td class="dest-empty">designated next; candidate pair: <em>The Dashboard Lied Politely</em></td>
+      </tr>
+      <tr>
+        <td class="claim">Wazuh Detection Harness</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-detection-harness">/case-study-detection-harness</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">Splunk Detection Rule Audit &mdash; Four Noise Sources</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-splunk-detection-audit">/case-study-splunk-detection-audit</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">Migrating Legacy Detection Rules from Python 2 to Python 3</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/blog-python2-to-python3">/blog-python2-to-python3</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-label">Threat Hunting</div>
+  <table class="registry-table">
+    <thead>
+      <tr>
+        <th>Case study / surface</th>
+        <th>HawkinsOps</th>
+        <th>Status</th>
+        <th>Ledger entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="claim">Live Splunk Threat Hunt &mdash; EventID 4688</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-threat-hunt-4688">/case-study-threat-hunt-4688</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">When AI Tooling Looks Like a LOLBin</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-splunk-codex-hunt">/case-study-splunk-codex-hunt</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-label">Infrastructure &amp; Hardening</div>
+  <table class="registry-table">
+    <thead>
+      <tr>
+        <th>Case study / surface</th>
+        <th>HawkinsOps</th>
+        <th>Status</th>
+        <th>Ledger entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="claim">Enterprise Security Hardening</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/enterprise-security">/enterprise-security</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">Audit Policy Baseline Assessment</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-security-hardening">/case-study-security-hardening</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">Cowrie Honeypot + Wazuh + Grafana</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-honeypot">/case-study-honeypot</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">Honeypot (Wazuh) Sanitized Alert Proof</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/honeypot-proof">/honeypot-proof</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+      <tr>
+        <td class="claim">PP_SOC Integration &mdash; Live Detection Workflow</td>
+        <td class="ho-link"><a href="https://hawkinsops.com/case-study-soc-integration">/case-study-soc-integration</a></td>
+        <td><span class="status unreviewed">No public Ledger review yet</span></td>
+        <td class="dest-empty">&mdash;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-label">Cross-cutting sub-claims</div>
+  <table class="registry-table">
+    <thead>
+      <tr>
+        <th>Sub-claim</th>
+        <th>HawkinsOps</th>
+        <th>Status</th>
+        <th>Ledger entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="claim">Auto-close metric &mdash; ~88% headline figure</td>
+        <td class="ho-link">benchmark surfaces across <a href="https://hawkinsops.com/signalfoundry">/signalfoundry</a>, <a href="https://hawkinsops.com/case-studies">/case-studies</a>, <a href="https://hawkinsops.com/proof">/proof</a></td>
+        <td><span class="status queued">Queued</span></td>
+        <td class="dest-empty">designated; sub-claim review (defend with caveats vs. retract clean headline)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="coverage-note">Pair count: 1 of 24 indexed case studies. Queued: 3 (1 case study designated, 1 candidate pair, 1 cross-cutting sub-claim). Subsequent pairs follow the install pattern documented in the methodology paper.</p>
+</main>
+
+<footer class="site">
+  <p>The Ledger is written by Raylee Hawkins; each entry is examined by blind reviewers on different evaluation axes against the evidence. The operator is human. The reviewers are not. The verification is the point.</p>
+</footer>
+</body>
+</html>
